@@ -8,8 +8,10 @@ module "certificate" {
   hostnames = [
     "${var.domain_name}",
   ]
-  zone_ids  = [
+
+  zone_ids = [
     "${data.aws_route53_zone.zone.id}",
   ]
-  region    = "us-east-1"
+
+  region = "us-east-1"
 }
