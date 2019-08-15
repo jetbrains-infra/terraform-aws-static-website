@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "cdn" {
         forward = "none"
       }
 
-      query_string = false
+      query_string = true
     }
 
     target_origin_id       = "origin.${local.domain_name}"
