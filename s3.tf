@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${local.bucket_name}"
-  region = "${var.aws_region}"
+  bucket = local.bucket_name
+  region = var.aws_region
   acl    = "private"
 
   policy = <<EOF
