@@ -3,15 +3,16 @@ data "aws_route53_zone" "zone" {
 }
 
 module "certificate" {
-  source = "github.com/jetbrains-infra/terraform-aws-acm-certificate?ref=v0.2.1"
+  source = "github.com/jetbrains-infra/terraform-aws-acm-certificate?ref=v0.3.0"
 
-  hostnames = [
+  name = "site-${local.domain_name}"
+  aliases = [
     var.domain_name,
   ]
 
   zone_ids = [
     data.aws_route53_zone.zone.id,
   ]
-  project = "static-jetsites"
+
   region  = "us-east-1"
 }
