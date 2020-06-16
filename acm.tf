@@ -3,7 +3,7 @@ data "aws_route53_zone" "zone" {
 }
 
 module "certificate" {
-  source = "github.com/jetbrains-infra/terraform-aws-acm-certificate?ref=v0.3.0"
+  source = "github.com/jetbrains-infra/terraform-aws-acm-certificate?ref=v0.2.1"
 
   hostnames = [
     var.domain_name,
