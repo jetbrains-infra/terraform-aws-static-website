@@ -1,3 +1,7 @@
+resource "aws_cloudfront_origin_access_identity" "default" {
+  count = var.use_s3_origin_identity ? 1 : 0
+}
+
 resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   default_root_object = "index.html"
@@ -13,6 +17,14 @@ resource "aws_cloudfront_distribution" "cdn" {
 
     domain_name = aws_s3_bucket.bucket.website_endpoint
     origin_id   = "origin.${local.domain_name}"
+
+    dynamic "s3_origin_config" {
+      iterator = access
+      for_each = aws_cloudfront_origin_access_identity.default.*.cloudfront_access_identity_path
+      content {
+        origin_access_identity = access.value
+      }
+    }
   }
 
   default_cache_behavior {
