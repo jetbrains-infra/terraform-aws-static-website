@@ -6,12 +6,12 @@ module "certificate" {
   source = "github.com/jetbrains-infra/terraform-aws-acm-certificate?ref=v0.3.0"
 
   name = "site-${local.domain_name}"
-  aliases = [
-    var.domain_name,
-  ]
 
-  zone_ids = [
-    data.aws_route53_zone.zone.id,
+  aliases = [
+    {
+      hostname = var.domain_name,
+      zone_id = data.aws_route53_zone.zone.id
+    }
   ]
 
   region  = "us-east-1"
