@@ -8,13 +8,6 @@ resource "aws_cloudfront_distribution" "cdn" {
   is_ipv6_enabled     = true
 
   origin {
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
-    }
-
     domain_name = aws_s3_bucket.bucket.website_endpoint
     origin_id   = "origin.${local.domain_name}"
 
@@ -23,6 +16,16 @@ resource "aws_cloudfront_distribution" "cdn" {
       for_each = aws_cloudfront_origin_access_identity.default.*.cloudfront_access_identity_path
       content {
         origin_access_identity = access.value
+      }
+    }
+
+    dynamic "custom_origin_config" {
+      for_each = var.use_s3_origin_identity ? list("1") : list()
+      content {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "http-only"
+        origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
       }
     }
   }
