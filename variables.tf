@@ -21,3 +21,8 @@ variable "register_ipv6" {
   type = bool
   default = false
 }
+
+variable "forward_query_string" {
+  type = bool
+  default = true
+}
