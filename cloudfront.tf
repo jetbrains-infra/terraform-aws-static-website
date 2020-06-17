@@ -8,19 +8,19 @@ resource "aws_cloudfront_distribution" "cdn" {
   is_ipv6_enabled     = true
 
   origin {
-    domain_name = aws_s3_bucket.bucket.website_endpoint
+    domain_name = var.use_s3_origin_identity ? aws_s3_bucket.bucket.bucket_regional_domain_name : aws_s3_bucket.bucket.website_endpoint
     origin_id   = "origin.${local.domain_name}"
 
     dynamic "s3_origin_config" {
       iterator = access
-      for_each = aws_cloudfront_origin_access_identity.default.*.cloudfront_access_identity_path
+      for_each = var.use_s3_origin_identity ? [42] : [0]
       content {
-        origin_access_identity = access.value
+        origin_access_identity = aws_cloudfront_origin_access_identity.default[0].cloudfront_access_identity_path
       }
     }
 
     dynamic "custom_origin_config" {
-      for_each = var.use_s3_origin_identity ? list("1") : list()
+      for_each = var.use_s3_origin_identity ? [] : [42]
       content {
         http_port              = 80
         https_port             = 443
