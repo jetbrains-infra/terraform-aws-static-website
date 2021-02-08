@@ -2,7 +2,9 @@ variable "route53_zone_name" {}
 variable "domain_name" {}
 variable "aws_region" {}
 
-variable "s3_lifecycle_rules" {}
+variable "s3_lifecycle_rules" {
+  default = []
+}
 
 variable "waf_id" {
   default = ""
