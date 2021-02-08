@@ -37,6 +37,27 @@ resource "aws_s3_bucket" "bucket" {
 
   policy = var.use_s3_origin_identity ? data.aws_iam_policy_document.s3_policy[0].json : local.s3_bucket_access_all
 
+  dynamic "lifecycle_rule" {
+    for_each = var.s3_lifecycle_rules
+    iterator = rule
+
+    content {
+      id           = lookup(rule.value, "id", null)
+      prefix       = lookup(rule.value, "prefix", null)
+      tags         = lookup(rule.value, "tags", null)
+      enabled      = rule.value.enabled
+
+      dynamic "expiration" {
+        for_each = length(keys(lookup(rule.value, "expiration", {}))) == 0 ? [] : [rule.value.expiration]
+
+        content {
+          date     = lookup(expiration.value, "date", null)
+          days     = lookup(expiration.value, "days", null)
+        }
+      }
+    }
+  }
+
   website {
     index_document = "index.html"
     error_document = "index.html"
