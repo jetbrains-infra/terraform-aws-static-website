@@ -6,6 +6,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   default_root_object = "index.html"
   is_ipv6_enabled     = true
+  tags                = var.tags
 
   origin {
     domain_name = var.use_s3_origin_identity ? aws_s3_bucket.bucket.bucket_regional_domain_name : aws_s3_bucket.bucket.website_endpoint
