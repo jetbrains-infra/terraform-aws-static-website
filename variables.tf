@@ -1,7 +1,6 @@
 variable "route53_zone_name" {}
 variable "domain_name" {}
 variable "aws_region" {}
-variable "tags" {}
 
 variable "s3_lifecycle_rules" {
   default = []
@@ -30,4 +29,7 @@ variable "register_ipv6" {
 variable "forward_query_string" {
   type = bool
   default = true
+}
+variable "tags" {
+  default = {}
 }
