@@ -31,5 +31,6 @@ variable "forward_query_string" {
   default = true
 }
 variable "tags" {
+  type    = "map"
   default = {}
 }
