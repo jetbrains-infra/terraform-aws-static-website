@@ -32,7 +32,6 @@ data "aws_iam_policy_document" "s3_policy" {
 
 resource "aws_s3_bucket" "bucket" {
   bucket = local.bucket_name
-  region = var.aws_region
   acl    = "private"
 
   policy = var.use_s3_origin_identity ? data.aws_iam_policy_document.s3_policy[0].json : local.s3_bucket_access_all
