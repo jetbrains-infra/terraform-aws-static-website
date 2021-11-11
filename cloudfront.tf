@@ -73,4 +73,30 @@ resource "aws_cloudfront_distribution" "cdn" {
   aliases = [
     local.domain_name,
   ]
+
+  # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#custom-error-response-arguments
+  custom_error_response {
+    error_caching_min_ttl = 10
+    error_code            = 500
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 10
+    error_code            = 502
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 30
+    error_code            = 503
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 30
+    error_code            = 504
+  }
+
+  logging_config {
+    bucket = aws_s3_bucket.logs_bucket.id
+    include_cookies = false
+  }
 }

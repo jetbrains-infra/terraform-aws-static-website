@@ -62,3 +62,12 @@ resource "aws_s3_bucket" "bucket" {
     error_document = "index.html"
   }
 }
+
+resource "aws_s3_bucket" "logs_bucket" {
+  bucket = local.logs_bucket_name
+  acl    = "private"
+
+  versioning {
+    enabled = false
+  }
+}
