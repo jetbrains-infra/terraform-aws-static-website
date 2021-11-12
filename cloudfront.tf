@@ -96,7 +96,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   logging_config {
-    bucket = aws_s3_bucket.logs_bucket.id
+    bucket = aws_s3_bucket.logs_bucket.bucket_domain_name
     include_cookies = false
   }
 }

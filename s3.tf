@@ -65,7 +65,7 @@ resource "aws_s3_bucket" "bucket" {
 
 resource "aws_s3_bucket" "logs_bucket" {
   bucket = local.logs_bucket_name
-  acl    = "private"
+  acl    = "log-delivery-write"
 
   versioning {
     enabled = false
